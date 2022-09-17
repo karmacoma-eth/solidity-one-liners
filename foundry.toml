@@ -3,4 +3,5 @@ src = 'src'
 out = 'out'
 libs = ['lib']
 
-# See more config options https://github.com/foundry-rs/foundry/tree/master/config
+# uncomment to set the RPC URL to use globally or override with FOUNDRY_ETH_RPC_URL environment variable
+# eth_rpc_url=...

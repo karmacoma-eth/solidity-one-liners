@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# create temp files
+tmpfile_in=$(mktemp)
+tmpfile_out=$(mktemp)
+
+# delete them in case the script is interrupted by some signal
+trap "rm -f $tmpfile_in" 0 2 3 15
+trap "rm -f $tmpfile_out" 0 2 3 15
+
+cp script/imports.fragment $tmpfile_in
+for interface in lib/openzeppelin-contracts/contracts/interfaces/*.sol ; do
+    echo "import \"$interface\";" >> $tmpfile_in
+done
+sed "s/#ONELINER#/$*/g" script/body.fragment >> $tmpfile_in
+
+if [ "$DEBUG_SOL" = "1" ]; then
+    echo "=== SOL INPUT ==="
+    cat "$tmpfile_in"
+fi
+
+# run it, grab the last line, trim the leading whitespace
+forge script "$tmpfile_in" > "$tmpfile_out"
+
+if [ "$DEBUG_SOL" = "1" ]; then
+    echo "\n=== SOL OUTPUT ==="
+    cat "$tmpfile_out"
+else
+    tail -n 1 "$tmpfile_out" | sed 's/^ *//g'
+fi
+
+rm "$tmpfile_in"
+rm "$tmpfile_out"
