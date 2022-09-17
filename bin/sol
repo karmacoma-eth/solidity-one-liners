@@ -8,10 +8,20 @@ tmpfile_out=$(mktemp)
 trap "rm -f $tmpfile_in" 0 2 3 15
 trap "rm -f $tmpfile_out" 0 2 3 15
 
+# start with the header fragment
 cp script/imports.fragment $tmpfile_in
+
+# automatically import every interface in openzeppelin-contracts
 for interface in lib/openzeppelin-contracts/contracts/interfaces/*.sol ; do
     echo "import \"$interface\";" >> $tmpfile_in
 done
+
+# automatically import every sol file under include/
+for include in include/*.sol ; do
+    echo "import \"$include\";" >> $tmpfile_in
+done
+
+# add the body fragment, replacing the placeholder with the arguments to this script
 sed "s/#ONELINER#/$*/g" script/body.fragment >> $tmpfile_in
 
 if [ "$DEBUG_SOL" = "1" ]; then
@@ -19,13 +29,14 @@ if [ "$DEBUG_SOL" = "1" ]; then
     cat "$tmpfile_in"
 fi
 
-# run it, grab the last line, trim the leading whitespace
+# run the script
 forge script "$tmpfile_in" > "$tmpfile_out"
 
 if [ "$DEBUG_SOL" = "1" ]; then
     echo "\n=== SOL OUTPUT ==="
     cat "$tmpfile_out"
 else
+    # grab the last line, trim the leading whitespace
     tail -n 1 "$tmpfile_out" | sed 's/^ *//g'
 fi
 
