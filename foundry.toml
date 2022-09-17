@@ -3,5 +3,6 @@ src = 'src'
 out = 'out'
 libs = ['lib']
 
-# uncomment to set the RPC URL to use globally or override with FOUNDRY_ETH_RPC_URL environment variable
-# eth_rpc_url=...
+# can also override with the FOUNDRY_ETH_RPC_URL environment variable
+eth_rpc_url='https://rpc.flashbots.net'
+# eth_rpc_url='https://polygon-rpc.com'
