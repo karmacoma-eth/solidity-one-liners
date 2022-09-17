@@ -8,6 +8,12 @@ tmpfile_out=$(mktemp)
 trap "rm -f $tmpfile_in" 0 2 3 15
 trap "rm -f $tmpfile_out" 0 2 3 15
 
+# figure out where we live
+BASEDIR=$(dirname "$0")
+PROJECTDIR="$BASEDIR"/..
+
+cd "$PROJECTDIR"
+
 # start with the header fragment
 cp script/imports.fragment $tmpfile_in
 
@@ -17,8 +23,8 @@ for interface in lib/openzeppelin-contracts/contracts/interfaces/*.sol ; do
 done
 
 # automatically import every sol file under include/
-for include in include/*.sol ; do
-    echo "import \"$include\";" >> $tmpfile_in
+for interface in include/*.sol ; do
+    echo "import \"$interface\";" >> $tmpfile_in
 done
 
 # add the body fragment, replacing the placeholder with the arguments to this script
