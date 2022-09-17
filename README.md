@@ -27,7 +27,7 @@ As long as you can `console2.log` it, you can `sol` it!
 ## Getting started
 
 1. [Install Foundry](https://book.getfoundry.sh/getting-started/installation)
-2. Clone this repository: `git clone --recurse-submodules XXX`
+2. Clone this repository: `git clone --recurse-submodules git@github.com:karmacoma-eth/solidity-one-liners.git`
 3. Optionally, add `bin/sol` to the path or create an alias for it
 
 ## How it works
