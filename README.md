@@ -19,6 +19,8 @@ $ sol 'Ownable(0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7).owner()'
 $ FOUNDRY_ETH_RPC_URL=https://polygon-rpc.com \
   sol 'IERC721Metadata(0xf388Ef0fcF637D32156f49424784AA773484963f).tokenURI(1)'
 data:application/json;base64,...
+
+$ sol 'ECDSA.recover(0x73b5..2d55, hex"ed46..9b1c")'
 ```
 
 As long as you can `console2.log` it, you can `sol` it!
